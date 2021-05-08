@@ -11,27 +11,57 @@ end
 
 def read_from(tokens)
   # トークンの列から式を読み込む
-  tokens  # TODO 実装
+  if tokens.size == 0
+    raise "unexpected EOR while reading"
+  end
+  token = tokens.shift
+
+  if token == '('
+    l = []
+    while tokens[0] != ')'
+      l.push(read_from(tokens))
+    end
+    tokens.shift  # pop off ')'
+    return l
+  elsif token == '~'
+    raise 'unexpected )'
+  else
+    return atom(token)
+  end
+end
+
+def atom(s)
+  if s =~ /^[+-]?[0-9]+$/  # 0が連続するケースも許容
+    return s.to_i
+  elsif s =~ /^[+-]?[0-9]+\.[0-9]*$/
+    return s.to_f
+  else
+    return s  # FIXME
+  end
 end
 
 def main
-  print 'lis.rb> '
+  loop do
+    print 'lis.rb> '
+    line = gets
 
-  line = gets
+    tokens = read(line)
 
-  split = read(line)
-  op = split[1]
-  a = split[2].to_i
-  b = split[3].to_i
+    p tokens  # FIXME debug
 
-  if op == '+'
-    puts a+b
-  elsif op == '-'
-    puts a-b
-  elsif op == '*'
-    puts a*b
-  elsif op == '/'
-    puts a/b
+    op = tokens[0]
+    a = tokens[1]
+    b = tokens[2]
+
+    if op == '+'
+      puts a+b
+    elsif op == '-'
+      puts a-b
+    elsif op == '*'
+      puts a*b
+    elsif op == '/'
+      puts a/b
+    end
   end
 end
 
