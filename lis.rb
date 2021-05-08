@@ -6,7 +6,7 @@ end
 
 def tokenize(s)
   # 文字列をトークンのリストに変換する
-  s.gsub('(', ' ( ').gsub(')', ' ) ').split()
+  s.gsub('(', ' ( ').gsub(')', ' ) ').split
 end
 
 def read_from(tokens)
