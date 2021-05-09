@@ -85,7 +85,7 @@ def atom(s)
   elsif s =~ /^[+-]?[0-9]+\.[0-9]*$/
     return s.to_f
   else
-    return s  # FIXME
+    return s
   end
 end
 
