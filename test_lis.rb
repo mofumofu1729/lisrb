@@ -1,7 +1,7 @@
 require 'test/unit'
 require './lis.rb'
 
-class TC_Lis < Test::Unit::TestCase
+class TC_LisRb < Test::Unit::TestCase
   def test_atom
     assert_equal(1, atom('01'))
     assert_equal(-3.14, atom('-3.14000'))
