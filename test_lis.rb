@@ -16,4 +16,9 @@ class TC_Lis < Test::Unit::TestCase
     assert_equal(['(', '+', '2', '(', '+', '1', '2', ')', ')'],
                  tokenize('(+ 2 (+ 1 2))'))
   end
+
+class TC_Env < Test::Unit::TestCase
+  def test_env
+    env = Env.new
+  end
 end

@@ -1,4 +1,36 @@
 #!/usr/bin/env ruby
+
+################ Env
+
+class Env < Hash
+  attr_accessor :outer
+
+  def initialize(params=[], args=[], outer=nil)
+    self.merge!(params.zip(args).to_h)
+    self.outer = outer
+  end
+
+  def find(var)
+    if self.has_key?(var)
+      return self
+    else
+      return self.outer.find(var)
+    end
+  end
+end
+
+def add_globals(env)
+  env.merge!(
+    {"+" => Proc.new { |a, b| a + b } ,
+     "-" => Proc.new { |a, b| a - b } ,
+     "*" => Proc.new { |a, b| a * b } ,
+     "/" => Proc.new { |a, b| a / b } ,
+    })
+  return env
+end
+
+GLOBAL_ENV = add_globals(Env.new)
+
 def read(s)
   # 文字列からScheme式を読み込む
   return read_from(tokenize(s))
