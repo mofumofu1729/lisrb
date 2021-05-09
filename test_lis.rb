@@ -17,6 +17,14 @@ class TC_Lis < Test::Unit::TestCase
                  tokenize('(+ 2 (+ 1 2))'))
   end
 
+  def test_eval
+    assert_equal(3, eval_exp(read("(+ 1 2)")))
+    assert_equal(2, eval_exp(read("(- 4 2)")))
+    assert_equal(8, eval_exp(read("(* 4 2)")))
+    assert_equal(2, eval_exp(read("(/ 4 2)")))
+  end
+end
+
 class TC_Env < Test::Unit::TestCase
   def test_env
     env = Env.new

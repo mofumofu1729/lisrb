@@ -31,6 +31,23 @@ end
 
 GLOBAL_ENV = add_globals(Env.new)
 
+################ eval
+
+def eval_exp(x, env=GLOBAL_ENV)
+  # 環境の中で式を評価する
+  if x.kind_of?(String)
+    return env.find(x)[x]
+  elsif not x.kind_of?(Array) return x else  # (proc exp*)
+    exps = x.map do |exp|
+      eval_exp(exp, env)
+    end
+    proc = exps.shift
+    return proc.call(exps)
+  end
+end
+
+################ parse, read, repl
+
 def read(s)
   # 文字列からScheme式を読み込む
   return read_from(tokenize(s))
@@ -77,23 +94,8 @@ def main
     print 'lis.rb> '
     line = gets
 
-    tokens = read(line)
-
-    p tokens  # FIXME debug
-
-    op = tokens[0]
-    a = tokens[1]
-    b = tokens[2]
-
-    if op == '+'
-      puts a+b
-    elsif op == '-'
-      puts a-b
-    elsif op == '*'
-      puts a*b
-    elsif op == '/'
-      puts a/b
-    end
+    res = eval_exp(read(line))
+    puts(res)
   end
 end
 
